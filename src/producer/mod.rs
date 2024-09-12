@@ -29,7 +29,7 @@ pub async fn get_user(Path(id): Path<String>) -> impl IntoResponse{
 
 }
 
-async fn create_user(Json(payload): Json<CreateUser>,) -> (StatusCode,Json<HashMap<String,User>>){
+async fn create_user(Json(payload): Json<CreateUser>,) -> (StatusCode,Json<User>){
    
 
     let  key = MAP_INSTANCE.len()+1;
@@ -42,11 +42,11 @@ async fn create_user(Json(payload): Json<CreateUser>,) -> (StatusCode,Json<HashM
     };
     
 
-    MAP_INSTANCE.insert(key.to_string(),user);
+    MAP_INSTANCE.insert(key.to_string(),user.clone());
 
     println!("{:?}",MAP_INSTANCE.data);
 
-    (StatusCode::CREATED,Json(MAP_INSTANCE.get_dictionary()))
+    (StatusCode::CREATED,Json(user))
 }
 
 #[derive(Deserialize,Clone)]
